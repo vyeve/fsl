@@ -76,6 +76,10 @@ There are 8 predefined operations:
 
 Custom function cannot have the same name, overriding is not allowed.
 
+Attempting to create variable that already exist, or update variable that is not exist will cause error.
+
+Deleting not existing variable won't cause error (`golang ideology`).
+
 ## Usage
 
 
