@@ -1,0 +1,22 @@
+# Options for analysis running.
+run:
+  # The default concurrency value is the number of available CPU.
+  concurrency: 4
+  # Allowed values: readonly|vendor|mod
+  # By default, it isn't set.
+  modules-download-mode: readonly
+  # Allow multiple parallel golangci-lint instances running.
+  # If false (default) - golangci-lint acquires file lock on start.
+  allow-parallel-runners: false
+  # Define the Go version limit.
+  # Mainly related to generics support in go1.18.
+  # Default: use Go version from the go.mod file, fallback on the env var `GOVERSION`, fallback on 1.17
+  go: "1.18"
+# All available settings of specific linters.
+linters:
+  # Enable all available linters.
+  # Default: false
+  enable-all: true
+  # Run only fast linters from enabled linters set (first run won't be fast)
+  # Default: false
+  fast: true
