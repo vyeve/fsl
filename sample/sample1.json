@@ -1,0 +1,100 @@
+{
+    "var1": 1,
+    "var2": 2,
+    "init": [
+        {
+            "cmd": "#setup"
+        }
+    ],
+    "setup": [
+        {
+            "cmd": "update",
+            "id": "var1",
+            "value": 3.5
+        },
+        {
+            "cmd": "print",
+            "value": "#var1"
+        },
+        {
+            "cmd": "#sum",
+            "id": "var1",
+            "value1": "#var1",
+            "value2": "#var2"
+        },
+        {
+            "cmd": "print",
+            "value": "#var1"
+        },
+        {
+            "cmd": "create",
+            "id": "var3",
+            "value": 5
+        },
+        {
+            "cmd": "print",
+            "value": "#var3"
+        },
+        {
+            "cmd": "#calculate",
+            "id": "var1",
+            "value1": 15,
+            "value2": "#var3",
+            "value3": 5,
+            "value4": "#var1"
+        },
+        {
+            "cmd": "print",
+            "value": "#var1"
+        },
+        {
+            "cmd": "delete",
+            "id": "var1"
+        },
+        {
+            "cmd": "#printAll"
+        }
+    ],
+    "sum": [
+        {
+            "cmd": "add",
+            "id": "$id",
+            "operand1": "$value1",
+            "operand2": "$value2"
+        }
+    ],
+    "calculate": [
+        {
+            "cmd": "subtract",
+            "id": "$id",
+            "operand1": "$value1",
+            "operand2": "$value2"
+        },
+        {
+            "cmd": "divide",
+            "id": "$id",
+            "operand1": "$value4",
+            "operand2": 2
+        },
+        {
+            "cmd": "multiply",
+            "id": "$id",
+            "operand1": "$value4",
+            "operand2": "$value3"
+        }
+    ],
+    "printAll": [
+        {
+            "cmd": "print",
+            "value": "#var1"
+        },
+        {
+            "cmd": "print",
+            "value": "#var2"
+        },
+        {
+            "cmd": "print",
+            "value": "#var3"
+        }
+    ]
+}
