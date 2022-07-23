@@ -59,7 +59,7 @@ func TestExtractValueOK(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			value, err := p.extractValue("value", tc.input, tc.params, "")
+			value, err := p.extractValue("value", tc.input, tc.params)
 			if err != nil {
 				t.Error(err)
 				return
@@ -132,7 +132,7 @@ func TestExtractValueFailed(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			_, err := p.extractValue("value", tc.input, tc.params, "")
+			_, err := p.extractValue("value", tc.input, tc.params)
 			if err == nil {
 				t.Error("expected not <nil> error")
 				return

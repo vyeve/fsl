@@ -29,7 +29,7 @@ func (p *parser) getVariableNameByID(id string, cmd, params command) (string, er
 	}
 }
 
-func (p *parser) extractValue(id string, cmd, params command, origID string) (float64, error) {
+func (p *parser) extractValue(id string, cmd, params command) (float64, error) {
 	v, ok := cmd[id]
 	if !ok {
 		return 0, fmt.Errorf("%w: %s", fsl.ErrVarNotFound, id)
@@ -49,11 +49,9 @@ func (p *parser) extractValue(id string, cmd, params command, origID string) (fl
 	case '#': // reference to variable
 		id = id[1:]
 	case '$': // argument to the function
-		return p.extractValue(id[1:], params, nil, id)
+		return p.extractValue(id[1:], params, nil)
 	default:
-		if origID != referenceToIDKey { // in case variable is a reference to id
-			return 0, fmt.Errorf("%w: %s", fsl.ErrIncorrectInputData, id)
-		}
+		return 0, fmt.Errorf("%w: %s", fsl.ErrIncorrectInputData, id)
 	}
 	return p.getValueByID(id)
 }

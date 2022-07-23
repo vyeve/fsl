@@ -15,7 +15,6 @@ const (
 const (
 	cmdKey           = "cmd"
 	idKey            = "id"
-	referenceToIDKey = "$" + idKey
 	valueKey         = "value"
 	operand1Key      = "operand1"
 	operand2Key      = "operand2"

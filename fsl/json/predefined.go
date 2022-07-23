@@ -16,7 +16,7 @@ func (p *parser) create(cmd, params command) error {
 	if err == nil {
 		return fmt.Errorf("%w: %s", fsl.ErrVariableAlreadyExist, variable)
 	}
-	value, err := p.extractValue(valueKey, cmd, params, "")
+	value, err := p.extractValue(valueKey, cmd, params)
 	if err != nil {
 		return err
 	}
@@ -42,7 +42,7 @@ func (p *parser) update(cmd, params command) error {
 	if err != nil {
 		return err
 	}
-	value, err := p.extractValue(valueKey, cmd, params, "")
+	value, err := p.extractValue(valueKey, cmd, params)
 	if err != nil {
 		return err
 	}
@@ -79,11 +79,11 @@ func (p *parser) calculate(cmd, params command, fn func(value1, value2 float64) 
 	if err != nil {
 		return err
 	}
-	value1, err := p.extractValue(operand1Key, cmd, params, "")
+	value1, err := p.extractValue(operand1Key, cmd, params)
 	if err != nil {
 		return err
 	}
-	value2, err := p.extractValue(operand2Key, cmd, params, "")
+	value2, err := p.extractValue(operand2Key, cmd, params)
 	if err != nil {
 		return err
 	}
@@ -92,7 +92,7 @@ func (p *parser) calculate(cmd, params command, fn func(value1, value2 float64) 
 }
 
 func (p *parser) print(cmd, params command) error {
-	value, err := p.extractValue(valueKey, cmd, params, "")
+	value, err := p.extractValue(valueKey, cmd, params)
 	switch {
 	case err == nil:
 		_, err = fmt.Fprintln(p.writer, value)
