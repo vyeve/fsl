@@ -7,8 +7,8 @@ import (
 	"github.com/vyeve/fsl/fsl"
 )
 
-func (p *parser) create(data, params map[string]interface{}) error {
-	variable, err := p.getVariableNameByID(idKey, data, nil) // extract name of variable
+func (p *parser) create(cmd, params command) error {
+	variable, err := p.getVariableNameByID(idKey, cmd, nil) // extract name of variable
 	if err != nil {
 		return err
 	}
@@ -16,7 +16,7 @@ func (p *parser) create(data, params map[string]interface{}) error {
 	if err == nil {
 		return fmt.Errorf("%w: %s", fsl.ErrVariableAlreadyExist, variable)
 	}
-	value, err := p.extractValue(valueKey, data, params)
+	value, err := p.extractValue(valueKey, cmd, params, "")
 	if err != nil {
 		return err
 	}
@@ -24,8 +24,8 @@ func (p *parser) create(data, params map[string]interface{}) error {
 	return nil
 }
 
-func (p *parser) delete(data map[string]interface{}) error {
-	variable, err := p.getVariableNameByID(idKey, data, nil) // extract name of variable
+func (p *parser) delete(cmd command) error {
+	variable, err := p.getVariableNameByID(idKey, cmd, nil) // extract name of variable
 	if err != nil {
 		return err
 	}
@@ -33,8 +33,8 @@ func (p *parser) delete(data map[string]interface{}) error {
 	return nil
 }
 
-func (p *parser) update(data, params map[string]interface{}) error {
-	variable, err := p.getVariableNameByID(idKey, data, nil) // extract name of variable
+func (p *parser) update(cmd, params command) error {
+	variable, err := p.getVariableNameByID(idKey, cmd, nil) // extract name of variable
 	if err != nil {
 		return err
 	}
@@ -42,7 +42,7 @@ func (p *parser) update(data, params map[string]interface{}) error {
 	if err != nil {
 		return err
 	}
-	value, err := p.extractValue(valueKey, data, params)
+	value, err := p.extractValue(valueKey, cmd, params, "")
 	if err != nil {
 		return err
 	}
@@ -50,40 +50,40 @@ func (p *parser) update(data, params map[string]interface{}) error {
 	return nil
 }
 
-func (p *parser) add(data, params map[string]interface{}) error {
-	return p.calculate(data, params, func(value1, value2 float64) float64 {
+func (p *parser) add(cmd, params command) error {
+	return p.calculate(cmd, params, func(value1, value2 float64) float64 {
 		return value1 + value2
 	})
 }
 
-func (p *parser) subtract(data, params map[string]interface{}) error {
-	return p.calculate(data, params, func(value1, value2 float64) float64 {
+func (p *parser) subtract(cmd, params command) error {
+	return p.calculate(cmd, params, func(value1, value2 float64) float64 {
 		return value1 - value2
 	})
 }
 
-func (p *parser) multiply(data, params map[string]interface{}) error {
-	return p.calculate(data, params, func(value1, value2 float64) float64 {
+func (p *parser) multiply(cmd, params command) error {
+	return p.calculate(cmd, params, func(value1, value2 float64) float64 {
 		return value1 * value2
 	})
 }
 
-func (p *parser) divide(data, params map[string]interface{}) error {
-	return p.calculate(data, params, func(value1, value2 float64) float64 {
+func (p *parser) divide(cmd, params command) error {
+	return p.calculate(cmd, params, func(value1, value2 float64) float64 {
 		return value1 / value2
 	})
 }
 
-func (p *parser) calculate(data, params map[string]interface{}, fn func(value1, value2 float64) float64) error {
-	varName, err := p.getVariableNameByID(idKey, data, params) // extract name of variable
+func (p *parser) calculate(cmd, params command, fn func(value1, value2 float64) float64) error {
+	varName, err := p.getVariableNameByID(idKey, cmd, params) // extract name of variable
 	if err != nil {
 		return err
 	}
-	value1, err := p.extractValue(operand1Key, data, params)
+	value1, err := p.extractValue(operand1Key, cmd, params, "")
 	if err != nil {
 		return err
 	}
-	value2, err := p.extractValue(operand2Key, data, params)
+	value2, err := p.extractValue(operand2Key, cmd, params, "")
 	if err != nil {
 		return err
 	}
@@ -91,8 +91,8 @@ func (p *parser) calculate(data, params map[string]interface{}, fn func(value1, 
 	return nil
 }
 
-func (p *parser) print(data, params map[string]interface{}) error {
-	value, err := p.extractValue(valueKey, data, params)
+func (p *parser) print(cmd, params command) error {
+	value, err := p.extractValue(valueKey, cmd, params, "")
 	switch {
 	case err == nil:
 		_, err = fmt.Fprintln(p.writer, value)

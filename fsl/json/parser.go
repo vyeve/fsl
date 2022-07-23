@@ -6,13 +6,13 @@ import (
 	"github.com/vyeve/fsl/fsl"
 )
 
+type command = map[string]interface{}
+
 type parser struct {
 	writer    io.Writer
 	variables map[string]float64
 	functions map[string][]command
 }
-
-type command = map[string]interface{}
 
 var _ fsl.Parser = (*parser)(nil) // make sure that parser implements fsl.Parser interface
 

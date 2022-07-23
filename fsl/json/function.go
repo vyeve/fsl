@@ -7,6 +7,7 @@ import (
 	"github.com/vyeve/fsl/fsl"
 )
 
+// init tries to unmarshal bytes to map[string]interface{} and set variables and functions
 func (p *parser) init(data []byte) error {
 	m := make(map[string]interface{})
 	err := json.Unmarshal(data, &m)
@@ -34,6 +35,7 @@ func (p *parser) init(data []byte) error {
 	return nil
 }
 
+// parseFunction receives name of function and optional params
 func (p *parser) parseFunction(name string, params command) error {
 	fn, ok := p.functions[name]
 	if !ok {
@@ -62,6 +64,7 @@ func (p *parser) parseFunction(name string, params command) error {
 		case printFnKey:
 			err = p.print(cmd, params)
 		default:
+			// not predefined function
 			err = p.parseFunction(command, cmd)
 		}
 		if err != nil {

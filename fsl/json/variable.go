@@ -6,8 +6,8 @@ import (
 	"github.com/vyeve/fsl/fsl"
 )
 
-func (p *parser) getVariableNameByID(id string, data, params map[string]interface{}) (string, error) {
-	v, ok := data[id]
+func (p *parser) getVariableNameByID(id string, cmd, params command) (string, error) {
+	v, ok := cmd[id]
 	if !ok {
 		return "", fmt.Errorf("%w: %s", fsl.ErrVarNotFound, id)
 	}
@@ -29,8 +29,8 @@ func (p *parser) getVariableNameByID(id string, data, params map[string]interfac
 	}
 }
 
-func (p *parser) extractValue(id string, data, params map[string]interface{}) (float64, error) {
-	v, ok := data[id]
+func (p *parser) extractValue(id string, cmd, params command, origID string) (float64, error) {
+	v, ok := cmd[id]
 	if !ok {
 		return 0, fmt.Errorf("%w: %s", fsl.ErrVarNotFound, id)
 	}
@@ -49,9 +49,11 @@ func (p *parser) extractValue(id string, data, params map[string]interface{}) (f
 	case '#': // reference to variable
 		id = id[1:]
 	case '$': // argument to the function
-		return p.extractValue(id[1:], params, nil)
+		return p.extractValue(id[1:], params, nil, id)
 	default:
-		return 0, fmt.Errorf("%w: %s", fsl.ErrIncorrectInputData, id)
+		if origID != referenceToIDKey { // in case variable is a reference to id
+			return 0, fmt.Errorf("%w: %s", fsl.ErrIncorrectInputData, id)
+		}
 	}
 	return p.getValueByID(id)
 }

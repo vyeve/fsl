@@ -19,6 +19,8 @@ func ExampleParser() {
 	// Output:
 	// 3.5
 	// 5.5
+	// 5
+	// 25
 	// undefined
 	// 2
 	// 5
